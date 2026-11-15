@@ -1,0 +1,73 @@
+[project]
+name = "course-dl-basic"
+version = "0.1.0"
+description = "영진전문대학교 글로벌시스템융합과 DL 기초 실습용 예제 및 데이터셋 관리 프로젝트"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "scikit-learn>=1.5",
+    "tqdm>=4.66",
+]
+
+# PyTorch 빌드는 extra로 선택한다. 셋 중 하나만 설치할 수 있다 (선택 기준은 README 참고).
+#   cpu   : GPU를 쓰지 않는 실습, 그리고 모든 Mac     uv sync --locked --extra cpu
+#   cu126 : NVIDIA RTX 20/30/40 시리즈 (Windows/Linux)  uv sync --locked --extra cu126
+#   cu130 : NVIDIA RTX 50 시리즈 (Windows/Linux)        uv sync --locked --extra cu130
+# CUDA extra(cu126, cu130)는 NVIDIA GPU 전용이다. macOS에는 CUDA 휠이 없어 설치가
+# 실패하므로, Mac은 항상 cpu extra를 쓴다 (MPS 가속은 cpu 빌드에서 동작한다).
+# torch/torchvision 버전은 모든 extra에서 반드시 동일하게 유지한다.
+[project.optional-dependencies]
+cpu = ["torch==2.14.1", "torchvision==0.29.1"]
+cu126 = ["torch==2.14.1", "torchvision==0.29.1"]
+cu130 = ["torch==2.14.1", "torchvision==0.29.1"]
+
+[dependency-groups]
+dev = [
+    "jupyterlab>=4.2",
+    "ipykernel>=6.29",
+    "ipywidgets>=8.1",
+    "ruff>=0.6",
+]
+
+[build-system]
+requires = ["uv_build>=0.12,<0.13"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "dlbasic"
+
+[tool.uv]
+conflicts = [[{ extra = "cpu" }, { extra = "cu126" }, { extra = "cu130" }]]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu126", extra = "cu126" },
+    { index = "pytorch-cu130", extra = "cu130" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu126", extra = "cu126" },
+    { index = "pytorch-cu130", extra = "cu130" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
+
+[tool.ruff]
+line-length = 100
