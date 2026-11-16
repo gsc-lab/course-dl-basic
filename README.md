@@ -94,8 +94,8 @@ uv run scripts/check_env.py
 ## 실습 실행
 
 ```bash
-uv run labs/week01_tensor/01_tensor_basics.py   # 스크립트 실행
-uv run jupyter lab                              # 노트북 실행
+uv run labs/week01_tensor/01_linear_regression.py   # 스크립트 실행
+uv run jupyter lab                                  # 노트북 실행
 ```
 
 ## 데이터셋
@@ -115,6 +115,7 @@ src/dlbasic/   공용 유틸 (get_device, set_seed, DATA_DIR)
 scripts/       환경 점검, 데이터 다운로드
 data/          데이터셋 (Git 제외)
 outputs/       체크포인트, 로그 (Git 제외)
+scratch/       자유롭게 실험하는 폴더 (Git 제외)
 ```
 
 ## 예제 작성 규칙
